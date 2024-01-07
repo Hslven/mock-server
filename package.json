@@ -7,16 +7,21 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "nodemon --exec electron . --watch ./ --ext .js,.vue,.html,.css,.json"
+    "start": "nodemon --exec electron . --watch ./ --ext .js,.vue,.html,.css"
   },
   "dependencies": {
     "electron": "^28.1.0",
     "vue": "^3.3.11"
   },
   "devDependencies": {
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/theme-one-dark": "^6.1.2",
     "@vitejs/plugin-vue": "^4.5.2",
+    "codemirror": "^6.0.1",
     "electron-win-state": "^1.1.22",
+    "jsoneditor": "^10.0.0",
     "tdesign-vue-next": "^1.7.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vue-codemirror6": "^1.2.0"
   }
 }

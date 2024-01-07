@@ -1,8 +1,9 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const { PORT } = require('./common')
 const WinState = require('electron-win-state')
 const path = require('path')
-require('./controller/getSource')
+require('./controller/base.js')
+// require('./controller/system')
 //所有窗体
 let windows = {
     mainWindow: null, //主窗口
@@ -11,7 +12,7 @@ let windows = {
 
 const createWindow = () => {
     const winState = new WinState.default({
-        dafaultWidth: 1000,
+        defaultWidth: 1000,
         defaultHeight: 800,
         electronStoreOptions: {
             name: 'window-state-main'
@@ -20,7 +21,7 @@ const createWindow = () => {
     windows.mainWindow = new BrowserWindow({
         // 自定义窗口状态
         ...winState.winOptions,
-        frame: false, // 隐藏默认头部
+        frame: true, // 隐藏默认头部
         webPreferences: {
             // nodeIntegration: true,
             // contextIsolation: false,
@@ -33,6 +34,7 @@ const createWindow = () => {
     winState.manage(windows.mainWindow)
 }
 
+
 app.whenReady().then(() => {
     createWindow()
 
@@ -40,6 +42,8 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 })
+
+
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
