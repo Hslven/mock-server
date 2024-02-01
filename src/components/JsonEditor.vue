@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, provide, inject, defineExpose } from "vue";
+import { ref, onMounted, provide, inject } from "vue";
 import JSONEditor from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.css";
 

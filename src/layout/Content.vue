@@ -1,44 +1,39 @@
-<script setup>
+<script setup lang="tsx">
 import JsonEditor from "@/components/jsoneditor.vue";
 import CodeMirror from "@/components/CodeMirror.vue";
-import { ref, computed, inject, provide } from "vue";
 
-const transformProcess = (data) => {
-  //   system.windowMax()
-  //   console.log(123)
-  // myApi.sendUrl(data)
-  // myApi.window(data)
-};
-const codeMirror = ref(null);
+import { ref, computed, inject, provide } from "vue";
+const codeMirror = ref<any>(null);
 // const data = computed(() => codeMirror.value?.data);
-const getdata=()=>{
-  return codeMirror.value?.data
-}
+const getdata = () => {
+  return codeMirror.value?.data;
+};
+
+
+const protocolSelect = ref(() => (
+  <t-select
+    autoWidth
+    options={['GET', 'POST','PUT','DELETE','PUTCH'].map((value) => ({ label: value, value }))}
+    defaultValue="GET"
+  />
+))
+
 // 输送数据
 defineExpose({
-  getdata
+  getdata,
 });
 </script>
 
 <template>
   <div class="base-box">
-    <t-collapse
-      :expandOnRowClick="false"
-      :disabled="disabled"
-      :borderless="true"
-      :defaultExpandAll="true"
-    >
-      <t-collapse-panel value="1">
-        <template #header>
-          <t-input></t-input>
-        </template>
-        <template #default>
-          <t-button @click="getData">123</t-button>
-          <!-- <JsonEditor ref="jsonEdit"></JsonEditor> -->
-          <CodeMirror ref="codeMirror"></CodeMirror>
-        </template>
-      </t-collapse-panel>
-    </t-collapse>
+    <div>
+      <t-input-adornment
+        :prepend="protocolSelect"
+      >
+        <t-input />
+      </t-input-adornment>
+    </div>
+    <CodeMirror ref="codeMirror"></CodeMirror>
   </div>
 </template>
 
