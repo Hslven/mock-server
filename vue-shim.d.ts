@@ -1,6 +1,6 @@
 /**
  * @description: vue文件类型声明
- * 解决：找不到模块“@/components/CodeMirror.vue”或其相应的类型声明。ts(2307)
+ * 解决：tsconfig.json在目录下找不到ts文件
  */
 declare module "*.vue" {
     import { DefineComponent } from "vue";

@@ -12,7 +12,23 @@ const getSource = (url) => {
     // })
 }
 
-ipcMain.on('get-json', async (e, data) => {
+/**
+ * 获取文件数据
+ * 
+ * @return Array
+ */
+ipcMain.handle('get-file-json', async () => {
+    const filePath = path.join(__dirname, 'data.json');
+    const data = await fs.promises.readFile(filePath, 'utf-8');
+    return JSON.parse(data);
+});
+
+/**
+ * 数据写入json
+ * 
+ * @return File
+ */
+ipcMain.on('write-file-json', async (e, data) => {
     // win.maximize()
     // 将数据写入文件
     const filePath = path.join(__dirname, 'data.json');
@@ -25,4 +41,3 @@ ipcMain.on('get-json', async (e, data) => {
         }
     });
 })
-

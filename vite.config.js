@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from "@vitejs/plugin-vue-jsx";
-const { PORT } = require('./common')
+// const { PORT } = require('./common')
+import { PORT } from './common'
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(),vueJsx()],
+    plugins: [vue(), vueJsx()],
     // 配置@代表src
     resolve: {
         alias: {

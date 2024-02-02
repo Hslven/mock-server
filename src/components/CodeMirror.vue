@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
 import CodeMirror from "vue-codemirror6";
+import { ref, watch, watchEffect,inject } from "vue";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { json } from "@codemirror/lang-json";
 import { debounce } from "lodash";
+// const initJson = defineProps({
+//   value: Object,
+// });
 
-const initJson = {
-  name: `maybaby`,
-  year: 25,
-  weight: 45,
-  height: 165,
-  gutter: true,
-};
 // 初始化
-let codeVal = ref("");
-// 转成json字符串并格式化
-codeVal.value = JSON.stringify(initJson, null, "\t");
+let codeVal = inject('activityDetail');
+// let codeVal = ref("");
+// watchEffect(() => {
+//   codeVal.value = JSON.stringify(initJson.value, null, "\t");
+// });
 
-// json语言
-// const lang = json();
 // 扩展
 const extensions = [oneDark];
 
@@ -40,8 +36,8 @@ const formatJson = () => {
 // 不知道为什么这里不会死循环
 watch(
   () => codeVal.value,
-  debounce((newVal) => {
-      formatJson();
+  debounce((_newVal) => {
+    formatJson();
   }, 1000),
 );
 
@@ -53,8 +49,10 @@ defineExpose({
 
 <template>
   <div class="main">
+    <div>{{ codeVal }}-111</div>
+    <!-- <div>{{ initJson.value }}-222</div> -->
     <code-mirror
-      v-model="codeVal"
+      v-model="codeVal.value"
       basic
       :lang="json()"
       style="height: 400px"

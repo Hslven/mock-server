@@ -1,0 +1,16 @@
+/**
+ * @description: vue文件类型声明
+ * 解决：找不到模块“@/components/CodeMirror.vue”或其相应的类型声明。ts(2307)
+ */
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+    // 其他配置...
+  }
+}
