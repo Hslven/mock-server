@@ -1,23 +1,34 @@
-<script setup>
-import { ref, onMounted } from "vue";
+<script setup lang="ts">
+import { ref, onMounted, Raw, computed } from "vue";
+import { throttle } from "lodash";
+import { useStore } from "vuex";
+import type { ICode } from "../interface/codeMirror";
 // 设置暗色模式
+const store = useStore();
 document.documentElement.setAttribute("theme-mode", "dark");
-
+const activityList = computed(() => store.state.activityList);
 // 获取数据
-const activityList = ref([]);
+// const activityList = ref<ICode[]>([]);
 onMounted(async () => {
-  activityList.value = await base.getFileJson();
+  // @ts-ignore
+  // activityList.value = await base.getFileJson();
+  await store.dispatch("awaitActivityList");
 });
 
 // 获取详情传出
-const getActivityDetail = (id) => {
-  const data  = activityList.value.find(
-    (item) => item.id === id,
+const getActivityDetail = (id: number) => {
+  const data = activityList.value.find(
+    (item: ICode) => item.id === id,
   );
-  emit("getActivityDetail", data);
+  //   emit("getActivityDetail", data);
+  store.commit("setCurrentActivity", data);
 };
 
-const addContext = () => {};
+// 添加活动
+const addContext = throttle(() => {
+  store.commit("createActivity");
+  console.log(store.state.currentActivity)
+}, 1000);
 const saveFile = () => {};
 const runServer = () => {};
 const emit = defineEmits(["getActivityDetail"]);
@@ -49,7 +60,7 @@ const emit = defineEmits(["getActivityDetail"]);
           }}</t-col>
           <t-col>{{ item.url }}</t-col>
         </t-row>
-        <t-row> 8 days ago </t-row>
+        <t-row> {{ item.createTime }} </t-row>
       </div>
     </t-row>
   </div>

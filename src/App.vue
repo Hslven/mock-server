@@ -1,28 +1,57 @@
 <script setup>
 import Content from "./layout/Content.vue";
 import Aside from "./layout/Aside.vue";
-import { ref, onMounted, inject, provide } from "vue";
+import {
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  inject,
+  provide,
+} from "vue";
+import { useStore } from "vuex";
+import { debounce } from "lodash";
 // 设置暗色模式
 document.documentElement.setAttribute("theme-mode", "dark");
-
+const store = useStore();
 // 获取详情传入Conetnt
-const activityDetail = ref({
-  method: "GET",
-  url: "",
-  data: "",
-});
-provide("activityDetail", activityDetail);
+// const activityDetail = ref({
+//   method: "GET",
+//   url: "",
+//   json: {},
+// });
+// provide("activityDetail", activityDetail);
 
-const getActivityDetail = (data) => {
-  activityDetail.value = data;
-  // 这里不需要provide，默认是响应式
-};
+// const getActivityDetail = (data) => {
+//   activityDetail.value = data;
+//   console.log(activityDetail.value);
+//   // 这里不需要provide，默认是响应式
+// };
+const save = debounce((event) => {
+  if (event.key === "d") {
+    event.preventDefault();
+    console.log(store.state);
+  }
+  if (event.ctrlKey && event.key === "s") {
+    event.preventDefault();
+    // 保存 activityDetail 的代码
+    store.commit("saveActivity");
+  }
+}, 200);
+
+onMounted(() => {
+  window.addEventListener("keydown", save);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", save);
+});
 </script>
 
 <template>
   <t-layout style="height: 100vh">
     <t-aside style="flex: 2">
-      <Aside @getActivityDetail="getActivityDetail"></Aside>
+      <!-- <Aside @getActivityDetail="getActivityDetail"></Aside> -->
+      <Aside></Aside>
     </t-aside>
     <t-layout style="flex: 6">
       <!-- <t-header class="header">Header</t-header> -->
