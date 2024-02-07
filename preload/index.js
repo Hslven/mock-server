@@ -1,10 +1,16 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 
-const getFileJson = (data) => ipcRenderer.invoke('get-file-json', data);
+const getFileJson = () => ipcRenderer.invoke('get-file-json');
 const writeFileJson = (data) => ipcRenderer.send('write-file-json', data);
+const startService = () => ipcRenderer.invoke('start-service',);
+// const listenToProgress = () => ipcRenderer.on('service-start-progress', (event, data) => {
+//     console.log(`Received start progress: ${data}`);
+// });
 
-contextBridge.exposeInMainWorld('base', {
+
+contextBridge.exposeInMainWorld('service', {
     getFileJson,
-    writeFileJson
+    writeFileJson,
+    startService
 })

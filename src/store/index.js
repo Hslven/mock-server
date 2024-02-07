@@ -55,7 +55,7 @@ const store = createStore({
     /*  */
     actions: {
         async awaitActivityList({ commit }) {
-            const list = await base.getFileJson();
+            const list = await service.getFileJson();
             commit('setActivityList', list);
         }
 

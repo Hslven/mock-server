@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, Raw, computed } from "vue";
+import { ref, onMounted, Raw, onUnmounted, computed } from "vue";
 import { throttle } from "lodash";
 import { useStore } from "vuex";
 import type { ICode } from "../interface/codeMirror";
+import { ipcRenderer } from "electron";
 // 设置暗色模式
 const store = useStore();
 document.documentElement.setAttribute("theme-mode", "dark");
@@ -11,7 +12,7 @@ const activityList = computed(() => store.state.activityList);
 // const activityList = ref<ICode[]>([]);
 onMounted(async () => {
   // @ts-ignore
-  // activityList.value = await base.getFileJson();
+  //   activityList.value = await base.getFileJson();
   await store.dispatch("awaitActivityList");
 });
 
@@ -27,10 +28,21 @@ const getActivityDetail = (id: number) => {
 // 添加活动
 const addContext = throttle(() => {
   store.commit("createActivity");
-  console.log(store.state.currentActivity)
+  console.log(store.state.currentActivity);
 }, 1000);
-const saveFile = () => {};
-const runServer = () => {};
+const saveFile = () => {
+  // @ts-ignore
+  service.writeFileJson(activityList.value);
+};
+
+const startService = async () => {
+  // @ts-ignore
+  const { code, message } = await service.startService();
+  if (!code) {
+    console.log(message);
+  }  
+};
+
 const emit = defineEmits(["getActivityDetail"]);
 </script>
 
@@ -44,7 +56,7 @@ const emit = defineEmits(["getActivityDetail"]);
       "
     >
       <t-button @click="addContext">New Request</t-button>
-      <t-button @click="runServer">Run Server</t-button>
+      <t-button @click="startService">Run Server</t-button>
       <t-button @click="saveFile">Save File</t-button>
     </t-row>
     <t-row>

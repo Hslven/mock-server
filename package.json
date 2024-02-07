@@ -14,7 +14,8 @@
     "lodash": "^4.17.21",
     "nodemon": "^3.0.3",
     "vue": "^3.3.11",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@codemirror/lang-json": "^6.0.1",

@@ -7,4 +7,5 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
 - [ ] 左侧添加勾选
-- [ ] content输入框左侧可选请求类型
+- [x] content输入框左侧可选请求类型
+- [ ] 先试试启动mock
