@@ -41,6 +41,7 @@ const store = createStore({
             try {
                 if (index > -1) {
                     state.activityList[index] = Object.assign({}, state.currentActivity);
+
                 } else {
                     // 存入默认数据再保存
                     this.commit('createActivity');
@@ -58,7 +59,6 @@ const store = createStore({
             const list = await service.getFileJson();
             commit('setActivityList', list);
         }
-
         // increment(context) {
         //     context.commit('increment')
         // },

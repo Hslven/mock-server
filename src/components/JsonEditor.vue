@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watchEffect,} from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 import { debounce } from "lodash";
 import { useStore } from "vuex";
 import JSONEditor from "jsoneditor";
@@ -20,11 +20,16 @@ onMounted(() => {
   watchEffect(() => {
     editor.value.set(props.jsonData);
   });
+
+  setInterval(() => {
+    console.log(123);
+    console.log(editor.value.get());
+  }, 1000);
 });
 
-// const error = ref("");
+const error = ref("421321");
 // const emit = defineEmits(["update:jsonData"]);
-/* onst updateJsonData = debounce(() => {
+/* const updateJsonData = debounce(() => {
   try {
     jsonData= editor.value.get();
     // store.commit("setActivityListStatic", {json:{...result}});
@@ -38,7 +43,12 @@ onMounted(() => {
 
 <template>
   <div>
-    <div id="jsoneditor" style="width: 100%; height: 400px"></div>
+    <div
+      id="jsoneditor"
+      tabindex="0"
+      style="width: 100%; height: 400px"
+    ></div>
+    <div>1232132131</div>
     <code style="color: rgb(244, 38, 38)">{{ error }}</code>
   </div>
 </template>

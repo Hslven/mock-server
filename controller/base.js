@@ -34,6 +34,7 @@ ipcMain.handle('get-file-json', async () => {
 ipcMain.on('write-file-json', async (e, data) => {
     // win.maximize()
     // 将数据写入文件
+    console.log(data)
     const filePath = path.join(__dirname, 'data.json');
     // console.log(filePath)
     fs.writeFile(filePath, data, (err) => {

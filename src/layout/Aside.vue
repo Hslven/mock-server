@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import { ref, onMounted, Raw, onUnmounted, computed } from "vue";
+import {
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  Raw,
+  onUnmounted,
+  computed,
+} from "vue";
 import { throttle } from "lodash";
 import { useStore } from "vuex";
 import type { ICode } from "../interface/codeMirror";
+import { debounce } from "lodash";
 import { ipcRenderer } from "electron";
+import { MessagePlugin } from 'tdesign-vue-next';
+
 // 设置暗色模式
 const store = useStore();
 document.documentElement.setAttribute("theme-mode", "dark");
 const activityList = computed(() => store.state.activityList);
+const activityId = ref(null);
 // 获取数据
 // const activityList = ref<ICode[]>([]);
 onMounted(async () => {
@@ -18,12 +29,27 @@ onMounted(async () => {
 
 // 获取详情传出
 const getActivityDetail = (id: number) => {
+  activityId.value = id;
   const data = activityList.value.find(
     (item: ICode) => item.id === id,
   );
+  console.log(data);
   //   emit("getActivityDetail", data);
   store.commit("setCurrentActivity", data);
 };
+
+const save = debounce((event) => {
+  if (event.key === "d") {
+    event.preventDefault();
+    console.log(store.state);
+  }
+  if (event.ctrlKey && event.key === "s") {
+    event.preventDefault();
+    getActivityDetail(activityId.value);
+    // 保存 activityDetail 的代码
+    store.commit("saveActivity");
+  }
+}, 200);
 
 // 添加活动
 const addContext = throttle(() => {
@@ -32,7 +58,8 @@ const addContext = throttle(() => {
 }, 1000);
 const saveFile = () => {
   // @ts-ignore
-  service.writeFileJson(activityList.value);
+  service.writeFileJson(JSON.stringify(activityList.value));
+  MessagePlugin.success("保存文件成功");
 };
 
 const startService = async () => {
@@ -40,10 +67,17 @@ const startService = async () => {
   const { code, message } = await service.startService();
   if (!code) {
     console.log(message);
-  }  
+  }
 };
 
 const emit = defineEmits(["getActivityDetail"]);
+onMounted(() => {
+  window.addEventListener("keydown", save);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", save);
+});
 </script>
 
 <template>

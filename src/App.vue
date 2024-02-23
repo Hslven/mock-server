@@ -9,7 +9,6 @@ import {
   provide,
 } from "vue";
 import { useStore } from "vuex";
-import { debounce } from "lodash";
 // 设置暗色模式
 document.documentElement.setAttribute("theme-mode", "dark");
 const store = useStore();
@@ -26,25 +25,9 @@ const store = useStore();
 //   console.log(activityDetail.value);
 //   // 这里不需要provide，默认是响应式
 // };
-const save = debounce((event) => {
-  if (event.key === "d") {
-    event.preventDefault();
-    console.log(store.state);
-  }
-  if (event.ctrlKey && event.key === "s") {
-    event.preventDefault();
-    // 保存 activityDetail 的代码
-    store.commit("saveActivity");
-  }
-}, 200);
 
-onMounted(() => {
-  window.addEventListener("keydown", save);
-});
 
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", save);
-});
+
 </script>
 
 <template>
