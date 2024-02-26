@@ -1,11 +1,10 @@
 <script setup lang="tsx">
-import JsonEditor from "@/components/jsoneditor.vue";
-// import CodeMirror from "@/components/CodeMirror.vue";
+// import JsonEditor from "@/components/jsoneditor.vue";
+import Monaco from "@/components/Monaco.vue";
 import type { ICode } from "../interface/codeMirror";
 import { ref, computed, watch, Ref, inject } from "vue";
 import { useStore } from "vuex";
 
-const codeMirror = ref<any>(null);
 const store = useStore();
 
 // 这里修改使用inject
@@ -35,7 +34,6 @@ const options = [
 
 <template>
   <div class="base-box">
-    
     <div style="display: flex; margin-bottom: 12px">
       <t-select
         autoWidth
@@ -45,11 +43,8 @@ const options = [
       ></t-select>
       <t-input v-model="activityDetail.url"></t-input>
     </div>
-    <!-- <CodeMirror
-      ref="codeMirror"
-      :jsonData.sync="activityDetail.json"
-    ></CodeMirror> -->
-    <JsonEditor :jsonData="activityDetail.json" />
+    <Monaco></Monaco>
+    <!-- <JsonEditor :jsonData="activityDetail.json" /> -->
   </div>
 </template>
 

@@ -6,9 +6,7 @@ const store = createStore({
     state() {
         return {
             activityList: [],
-            currentActivity: {
-
-            }
+            currentActivity: {}
         }
     },
     /*  */
