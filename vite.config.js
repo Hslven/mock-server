@@ -1,11 +1,15 @@
-import { defineConfig } from 'vite'
+import {
+    defineConfig
+} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import  monacoEditorPlugin  from 'vite-plugin-monaco-editor';
-import { PORT } from './common'
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
+import {
+    PORT
+} from './common'
 export default defineConfig({
     plugins: [vue(), vueJsx(), monacoEditorPlugin({
-        languageWorkers: ['editorWorkerService', 'typescript', 'json', 'html']
+        languageWorkers: ['javascript', 'json', 'html']
     })],
     // 配置@代表src
     resolve: {

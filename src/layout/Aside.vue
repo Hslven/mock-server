@@ -19,6 +19,8 @@ const store = useStore();
 document.documentElement.setAttribute("theme-mode", "dark");
 const activityList = computed(() => store.state.activityList);
 const activityId = ref(null);
+
+
 // 获取数据
 // const activityList = ref<ICode[]>([]);
 onMounted(async () => {
@@ -27,14 +29,13 @@ onMounted(async () => {
   await store.dispatch("awaitActivityList");
 });
 
-// 获取详情传出
+// 获取详情
 const getActivityDetail = (id: number) => {
   activityId.value = id;
   const data = activityList.value.find(
     (item: ICode) => item.id === id,
   );
   console.log(data);
-  //   emit("getActivityDetail", data);
   store.commit("setCurrentActivity", data);
 };
 

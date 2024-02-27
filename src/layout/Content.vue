@@ -12,6 +12,7 @@ const store = useStore();
 //   activityDetail: Object,
 // });
 const activityDetail = computed(() => store.state.currentActivity);
+const contentDetail = 
 console.log(activityDetail.value);
 // const activityDetail = inject<Ref<ICode>>("activityDetail");
 
@@ -19,7 +20,7 @@ console.log(activityDetail.value);
 // watch(
 //   () => activityDetail.value,
 //   (newVal) => {
-//     input.value = newVal.url;
+//     input.value = newVal.url; 
 //     select.value = newVal.method;
 //   },
 // );
@@ -37,13 +38,13 @@ const options = [
     <div style="display: flex; margin-bottom: 12px">
       <t-select
         autoWidth
-        v-model="activityDetail.method"
+        default-value="GET"
         :options="options"
         style="width: fit-content; margin-right: -1px"
       ></t-select>
       <t-input v-model="activityDetail.url"></t-input>
     </div>
-    <Monaco></Monaco>
+    <Monaco :data="activityDetail.json"></Monaco>
     <!-- <JsonEditor :jsonData="activityDetail.json" /> -->
   </div>
 </template>
