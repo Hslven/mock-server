@@ -9,7 +9,7 @@ import {
 } from './common'
 export default defineConfig({
     plugins: [vue(), vueJsx(), monacoEditorPlugin({
-        languageWorkers: ['javascript', 'json', 'html']
+        languageWorkers: ['typescript', 'json', 'html']
     })],
     // 配置@代表src
     resolve: {

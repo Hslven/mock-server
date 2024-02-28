@@ -33,7 +33,8 @@ const store = createStore({
                 createTime: Date.now(),
             }
         },
-        saveActivity(state) {
+        saveActivity(state,data) {
+            this.commit('setCurrentActivity',data)
             // 如果相同id覆盖,同时防止指向同一个地址
             const index = state.activityList.findIndex(item => item.id === state.currentActivity.id)
             try {
