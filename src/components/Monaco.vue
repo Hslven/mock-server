@@ -14,8 +14,10 @@ const props = defineProps({
 //     console.log(props.data);
 //   });
 
-co con's't
+const getMonacoData= ()=>{
+    toRaw(editorRef.value).getValue()
 
+}
 onMounted(() => {
   editorRef.value = monaco.editor.create(
     document.getElementById("monaco-container"),
