@@ -11,22 +11,17 @@ import { throttle } from "lodash";
 import { useStore } from "vuex";
 import type { ICode } from "../interface/codeMirror";
 import { debounce } from "lodash";
-import { MessagePlugin } from 'tdesign-vue-next';
+import { MessagePlugin } from "tdesign-vue-next";
 
 // 设置暗色模式
-const store = useStore();
 document.documentElement.setAttribute("theme-mode", "dark");
+const store = useStore();
 const activityList = computed(() => store.state.activityList);
 const activityId = ref(null);
-
+const emit = defineEmits(["getActivityDetail"]);
 
 // 获取数据
 // const activityList = ref<ICode[]>([]);
-onMounted(async () => {
-  // @ts-ignore
-  //   activityList.value = await base.getFileJson();
-  await store.dispatch("awaitActivityList");
-});
 
 // 获取详情
 const getActivityDetail = (id: number) => {
@@ -34,33 +29,30 @@ const getActivityDetail = (id: number) => {
   const data = activityList.value.find(
     (item: ICode) => item.id === id,
   );
-  console.log(data);
   store.commit("setCurrentActivity", data);
 };
 
-
-
 // 添加活动
-const addContext = throttle(() => {
+const newRequest = throttle(() => {
   store.commit("createActivity");
-  console.log(store.state.currentActivity);
 }, 1000);
-const saveFile = () => {
-  // @ts-ignore
-  service.writeFileJson(JSON.stringify(activityList.value));
-  MessagePlugin.success("保存文件成功");
-};
 
 const startService = async () => {
   // @ts-ignore
   const { code, message } = await service.startService();
   if (!code) {
     console.log(message);
+    MessagePlugin.success('服务启动成功：'+message);
+  }else{
+    MessagePlugin.error('服务启动失败：'+message);
   }
 };
 
-const emit = defineEmits(["getActivityDetail"]);
-
+onMounted(async () => {
+  // @ts-ignore
+  //   activityList.value = await base.getFileJson();
+  await store.dispatch("awaitActivityList");
+});
 
 </script>
 
@@ -73,13 +65,14 @@ const emit = defineEmits(["getActivityDetail"]);
         border-bottom: 1px solid #343538;
       "
     >
-      <t-button @click="addContext">New Request</t-button>
+      <t-button @click="newRequest">New Request</t-button>
       <t-button @click="startService">Run Server</t-button>
-      <t-button @click="saveFile">Save File</t-button>
+      <!-- <t-button @click="saveFile">Save File</t-button> -->
     </t-row>
     <t-row>
       <div
         class="aside-activity-list"
+        :style="store.state.currentActivity.id === item.id ? 'background-color: #343538' : ''"
         v-for="item in activityList"
         :key="item.id"
         @click="getActivityDetail(item.id)"
@@ -90,7 +83,7 @@ const emit = defineEmits(["getActivityDetail"]);
           }}</t-col>
           <t-col>{{ item.url }}</t-col>
         </t-row>
-        <t-row> {{ item.createTime }} </t-row>
+        <t-row> {{ new Date(item.createTime).toLocaleString('zh-cn', { hour12: false }) }} </t-row>
       </div>
     </t-row>
   </div>

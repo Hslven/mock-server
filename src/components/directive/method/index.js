@@ -18,7 +18,7 @@
         ...methodType(arg),
     });
     // 将文本delete转换为DEL
-    el.innerText = ('delete' || 'DELETE') ? 'DEL' : arg;
+    el.innerText = (arg == 'delete' || arg=='DELETE') ? 'DEL' : arg;
 
 };
 export default method

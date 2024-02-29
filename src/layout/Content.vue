@@ -1,21 +1,18 @@
 <script setup lang="tsx">
 // import JsonEditor from "@/components/jsoneditor.vue";
 import Monaco from "@/components/Monaco.vue";
-import { ref,watchEffect,onMounted,onBeforeUnmount } from "vue";
+import { ref, watchEffect } from "vue";
 import { useStore } from "vuex";
-import { cloneDeep,debounce } from "lodash";
+import { cloneDeep } from "lodash";
+import useKeydownSave from "@/hooks/useKeydownSave";
 
 const store = useStore();
+const monacoRef = ref(null);
 const activityDetail = ref({
   url: "",
-  json: {},
+  json: "",
   method: "GET",
 });
-watchEffect(() => {
-  activityDetail.value = cloneDeep(store.state.currentActivity);
-  console.log(activityDetail.value);
-});
-
 const options = [
   { label: "GET", value: "GET" },
   { label: "POST", value: "POST" },
@@ -24,25 +21,11 @@ const options = [
   { label: "PATCH", value: "PATCH" },
 ];
 
-const save = debounce((event) => {
-  if (event.key === "d") {
-    event.preventDefault();
-    console.log(store.state);
-  }
-  if (event.ctrlKey && event.key === "s") {
-    event.preventDefault();
-    console.log(activityDetail.value)
-    // 保存 activityDetail 的代码
-    store.commit("saveActivity",activityDetail.value);
-  }
-}, 200);
-onMounted(() => {
-  window.addEventListener("keydown", save);
+watchEffect(() => {
+  console.log(store.state.currentActivity);
+  activityDetail.value = cloneDeep(store.state.currentActivity);
 });
-
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", save);
-});
+useKeydownSave(monacoRef, activityDetail, store);
 </script>
 
 <template>
@@ -57,7 +40,7 @@ onBeforeUnmount(() => {
       ></t-select>
       <t-input v-model="activityDetail.url"></t-input>
     </div>
-    <Monaco :data="activityDetail.json"></Monaco>
+    <Monaco ref="monacoRef" :data="activityDetail.json"></Monaco>
   </div>
 </template>
 

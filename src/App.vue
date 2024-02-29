@@ -32,11 +32,11 @@ const store = useStore();
 
 <template>
   <t-layout style="height: 100vh">
-    <t-aside style="flex: 2">
+    <t-aside style="width: 100%;">
       <!-- <Aside @getActivityDetail="getActivityDetail"></Aside> -->
-      <Aside></Aside>
+      <Aside style="width: 250px;"></Aside>
     </t-aside>
-    <t-layout style="flex: 6">
+    <t-layout>
       <!-- <t-header class="header">Header</t-header> -->
       <t-content>
         <!-- <Content ref="content" :activityDetail="activityDetail" /> -->

@@ -1,7 +1,13 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path')
-const { exec, spawn } = require('child_process');
-const { ipcMain, BrowserWindow } = require('electron')
+const {
+    exec,
+    spawn
+} = require('child_process');
+const {
+    ipcMain,
+    BrowserWindow
+} = require('electron')
 const WebSocket = require('ws');
 
 const getSource = (url) => {
@@ -22,7 +28,7 @@ const getSource = (url) => {
  */
 ipcMain.handle('get-file-json', async () => {
     const filePath = path.join(__dirname, 'data.json');
-    const data = await fs.promises.readFile(filePath, 'utf-8');
+    const data = await fs.readFile(filePath, 'utf-8');
     return JSON.parse(data);
 });
 
@@ -46,30 +52,32 @@ ipcMain.on('write-file-json', async (e, data) => {
     });
 })
 
-// ipcMain.handle('start-service', async (event) => {
-//     const childProcess = spawn('node', ['C:/Users/dev04/Desktop/node_modules(1)'])
-//     let data = {
-//         status: 0,
-//         message: '服务启动成功',
-//         data: childProcess
-//     }
-//     childProcess.stdout.on('data', (data) => {
-//         console.log(`stdout: ${data}`);
-//         event.reply('start-service', data.toString());
-//     });
-//     childProcess.stderr.on('data', (data) => {
-//         console.error(`stderr: ${data}`);
-//     });
-//     childProcess.on('close', (code) => {
-//         console.log(`子进程退出，退出码 ${code}`);
-//     });
-//     return childProcess;
-// });
 
 // 启动服务
 ipcMain.handle('start-service', async (event) => {
-    return new Promise((resolve, reject) => {
-        const childProcess = spawn('node', ['C:/Users/dev04/Desktop/node_modules(1)']);
+    const data = await fs.readFile(path.join(__dirname, 'data.json'), 'utf-8');
+    const module = JSON.parse(data).map(item => {
+        return {
+            url: item.url,
+            methods: item.method,
+            response: `(ctx) => {return${JSON.stringify(item.json)}}`
+        }
+    })
+    const content = `const Mock = require('mockjs');
+    const Random = Mock.Random;
+    module.exports = ${JSON.stringify(module,null,2)}
+    `;
+    const filePath = path.join(__dirname, '..', 'server', 'mock', 'primary', 'default.js');
+    fs.writeFile(filePath, content, (err) => {
+        if (err) {
+            return console.error('写入文件失败:', err);
+        }
+        console.log('数据已成功写入文件');
+    });
+
+    return new Promise(async (resolve, reject) => {
+
+        const childProcess = spawn('node', ['server/index.js']);
         const result = {
             code: null,
             message: null,
@@ -84,16 +92,30 @@ ipcMain.handle('start-service', async (event) => {
 
         childProcess.stderr.on('data', (data) => {
             result.code = 1;
-            result.message = data.toString();
-        });
-
-        childProcess.on('close', (code) => {
-            result.message = `子进程退出，退出码 ${code}`;
+            if (data.toString().includes('EADDRINUSE')) {
+                result.message = '服务已经启动';
+            } else if (data.toString().includes('Error: Cannot find module')) {
+                result.message = '请先安装依赖';
+            } else {
+                result.message = data.toString();
+            }
             resolve(result);
         });
+        // childProcess.on('close', (code) => {
+        //     if (code !== 0) {
+        //         result.code = 1;
+        //         result.message = `服务异常退出，退出码：${code}`;
+        //     } else if (childProcess.pid) {
+        //         result.code = 0;
+        //         result.message = `服务已经启动`;
+        //     }
+        //     resolve(result);
+        // });
 
         childProcess.on('error', (error) => {
-            reject(error);
+            result.code = 1;
+            result.message = error.message;
+            resolve(result);
         });
     });
 });
@@ -101,7 +123,6 @@ ipcMain.handle('start-service', async (event) => {
 // 关闭服务
 ipcMain.handle('close-service', async (event, childProcess) => {
     return new Promise((resolve, reject) => {
-        
         childProcess.kill();
         resolve();
     });

@@ -15,7 +15,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': '/src',
-            '~': '/'
+            '~': '/',
         },
     },
     // 配置启动端口

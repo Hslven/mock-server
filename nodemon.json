@@ -1,0 +1,6 @@
+{
+    "exec": "electron .",
+    "watch": ["./"],
+    "ext": "js,vue,html,css",
+    "ignore": ["server/**"]
+}
