@@ -47,4 +47,6 @@ const store = useStore();
   </t-layout>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

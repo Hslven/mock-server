@@ -1,17 +1,10 @@
 <script setup lang="ts">
-import {
-  ref,
-  onMounted,
-  onBeforeUnmount,
-  Raw,
-  onUnmounted,
-  computed,
-} from "vue";
+import { ref, onMounted, computed } from "vue";
 import { throttle } from "lodash";
 import { useStore } from "vuex";
 import type { ICode } from "../interface/codeMirror";
-import { debounce } from "lodash";
 import { MessagePlugin } from "tdesign-vue-next";
+import ButtonAdamgiebl from "@/components/dom/ButtonAdamgiebl.vue";
 
 // 设置暗色模式
 document.documentElement.setAttribute("theme-mode", "dark");
@@ -20,7 +13,6 @@ const activityList = computed(() => store.state.activityList);
 const activityId = ref(null);
 const emit = defineEmits(["getActivityDetail"]);
 
-// 获取数据
 // const activityList = ref<ICode[]>([]);
 
 // 获取详情
@@ -40,20 +32,15 @@ const newRequest = throttle(() => {
 const startService = async () => {
   // @ts-ignore
   const { code, message } = await service.startService();
-  if (!code) {
-    console.log(message);
-    MessagePlugin.success('服务启动成功：'+message);
-  }else{
-    MessagePlugin.error('服务启动失败：'+message);
+  if (code) {
+    return MessagePlugin.error("服务启动失败：" + message);
   }
+  MessagePlugin.success("服务启动成功：" + message);
 };
 
 onMounted(async () => {
-  // @ts-ignore
-  //   activityList.value = await base.getFileJson();
   await store.dispatch("awaitActivityList");
 });
-
 </script>
 
 <template>
@@ -66,13 +53,17 @@ onMounted(async () => {
       "
     >
       <t-button @click="newRequest">New Request</t-button>
-      <t-button @click="startService">Run Server</t-button>
+      <ButtonAdamgiebl @click="startService"></ButtonAdamgiebl>
       <!-- <t-button @click="saveFile">Save File</t-button> -->
     </t-row>
-    <t-row>
+    <t-row style="height: 84vh; overflow-y: auto">
       <div
         class="aside-activity-list"
-        :style="store.state.currentActivity.id === item.id ? 'background-color: #343538' : ''"
+        :style="
+          store.state.currentActivity.id === item.id
+            ? 'background-color: #343538'
+            : ''
+        "
         v-for="item in activityList"
         :key="item.id"
         @click="getActivityDetail(item.id)"
@@ -83,7 +74,13 @@ onMounted(async () => {
           }}</t-col>
           <t-col>{{ item.url }}</t-col>
         </t-row>
-        <t-row> {{ new Date(item.createTime).toLocaleString('zh-cn', { hour12: false }) }} </t-row>
+        <t-row>
+          {{
+            new Date(item.createTime).toLocaleString("zh-cn", {
+              hour12: false,
+            })
+          }}
+        </t-row>
       </div>
     </t-row>
   </div>

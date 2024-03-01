@@ -22,8 +22,9 @@ npm run start
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-- [ ] 左侧添加勾选
+- [ ] 添加删除
 - [x] content输入框左侧可选请求类型
-- [x] 先试试启动mock
+- [x] 能够启动mock
 - [ ] 需要能够编辑后重新启动
 - [ ] 允许自定义创建Random
+- [ ] 允许打开某个文件加载

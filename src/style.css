@@ -1,32 +1,59 @@
 :root,
 :root[theme-mode="dark"] {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  --primary-color: #141414;
-  --secondary-color: #1c1e1f;
+    --primary-color: #141414;
+    --secondary-color: #1c1e1f;
 }
 
 body {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
+
 }
 
-.base-box{
-  padding: 16px;
-  
+.base-box {
+    padding: 16px;
+
 }
-.base-box-weaken{
-  padding: 8px;
+
+.base-box-weaken {
+    position: relative;
+    padding: 8px;
+
+}
+
+
+/* 滚动条的样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    /* 滚动条的宽度 */
+}
+
+/* 滑块的样式 */
+::-webkit-scrollbar-thumb {
+    /* 滑块的背景颜色 */
+    background-color: #ccc;
+    /* 滑块的圆角 */
+    border-radius: 4px;
+}
+
+/* 轨道的样式 */
+::-webkit-scrollbar-track {
+    /* 轨道的背景颜色 */
+    background-color: #ffffff;
+    /* 轨道的圆角 */
+    border-radius: 4px;
 }

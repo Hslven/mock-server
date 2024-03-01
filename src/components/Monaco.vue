@@ -1,41 +1,43 @@
 <script setup>
 // 在你的Vue3组件中
-import { onMounted, ref, watchEffect, watch, toRaw } from "vue";
 import * as monaco from "monaco-editor";
-
+import { onMounted, ref, watchEffect, toRaw } from "vue";
+import { isEqual } from "lodash";
+import { useStore } from "vuex";
 const props = defineProps({
   data: String,
 });
-
+const store = useStore();
 const editorRef = ref(null); // 用于存放编辑器实例的ref
-// toRaw(editorRef.value).onDidChangeModelContent(() => { });
-watch(
-  () => props.data,
-  (newData) => {
-    toRaw(editorRef.value).setValue(newData, null, 2);
-  },
-);
-
-const getMonacoData = () => {
-  // 如果空，返回空对象
-  if (!toRaw(editorRef.value).getValue()) {
-    return {};
-  }
-  //   return JSON.parse(toRaw(editorRef.value).getValue());
-  return toRaw(editorRef.value).getValue();
-};
+const getMonacoData = () => toRaw(editorRef.value).getValue();
 
 onMounted(() => {
   editorRef.value = monaco.editor.create(
     document.getElementById("monaco-container"),
     {
       value: "",
-      language: "javascript",
+      language: "json",
       theme: "vs-dark",
       autoIndent: true, //自动布局
-      quickSuggestionsDelay: 100, //代码提示延时
+      quickSuggestionsDelay: 0, //代码提示延时
     },
   );
+
+  // 赋值错误标记,如果有变化再执行,因为onDidChangeModelDecorations执行次数太多
+  let markersCopy = [];
+  toRaw(editorRef.value).onDidChangeModelDecorations((e) => {
+    const markers = monaco.editor.getModelMarkers();
+    if (!isEqual(markersCopy, markers)) {
+      markersCopy = markers;
+      store.commit("setEditorError", markers);
+    }
+  });
+
+  // 首屏渲染以及选择活动的时候渲染
+  watchEffect(() => {
+    const newData = props.data;
+    toRaw(editorRef.value).setValue(newData);
+  });
 });
 
 defineExpose({

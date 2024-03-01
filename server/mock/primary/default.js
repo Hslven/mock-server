@@ -1,30 +1,54 @@
-const Mock = require('mockjs');
-    const Random = Mock.Random;
+
     module.exports = [
   {
-    "url": "lohost:3000/api",
+    "url": "/baseData",
     "methods": "GET",
-    "response": "(ctx) => {return\"\"}"
+    "response": "(ctx) => {return\"{\\r\\n    \\\"data\\\":[1,2,3,4]\\r\\n}\"}"
   },
   {
-    "url": "/eal",
+    "url": "/213213",
     "methods": "GET",
-    "response": "(ctx) => {return\"\"}"
+    "response": "(ctx) => {return\"21321321\"}"
   },
   {
-    "url": "/eeea",
+    "url": "/421",
     "methods": "GET",
-    "response": "(ctx) => {return\"return {\\r\\n    \\r\\n}\"}"
+    "response": "(ctx) => {return\"{\\r\\n    \\\"qwe\\\":123\\r\\n}\"}"
   },
   {
-    "url": "/eee",
+    "url": "/llm",
     "methods": "GET",
-    "response": "(ctx) => {return\"return {\\r\\n    1231:123\\r\\n}\"}"
+    "response": "(ctx) => {return\"{\\r\\n    \\\"qwe\\\":413\\r\\n}\"}"
   },
   {
-    "url": "",
+    "url": "/",
     "methods": "GET",
-    "response": "(ctx) => {return\"return {\\r\\n    s:123\\r\\n}\"}"
+    "response": "(ctx) => {return\"{\\r\\n    \\r\\n}\"}"
+  },
+  {
+    "url": "/",
+    "methods": "GET",
+    "response": "(ctx) => {return\"{\\r\\n    \\r\\n}\"}"
+  },
+  {
+    "url": "/",
+    "methods": "GET",
+    "response": "(ctx) => {return\"{\\r\\n    \\r\\n}\"}"
+  },
+  {
+    "url": "/api/qqq",
+    "methods": "GET",
+    "response": "(ctx) => {return\"{\\r\\n    \\\"eeee\\\":1\\r\\n}\"}"
+  },
+  {
+    "url": "/",
+    "methods": "GET",
+    "response": "(ctx) => {return\"{\\r\\n    \\r\\n}\"}"
+  },
+  {
+    "url": "/",
+    "methods": "GET",
+    "response": "(ctx) => {return\"{\\\"123\\\":33}\"}"
   }
 ]
     
