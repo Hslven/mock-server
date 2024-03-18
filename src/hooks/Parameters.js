@@ -1,5 +1,6 @@
 export function getNewActivityParameters() {
   return {
+    id:"",
     title: "",
     url: "",
     // json: "return {\r\n    \r\n}",

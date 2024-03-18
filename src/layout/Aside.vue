@@ -5,12 +5,14 @@ import { useStore } from "vuex";
 import type { ICode } from "../interface/codeMirror";
 import { MessagePlugin } from "tdesign-vue-next";
 import ButtonAdamgiebl from "@/components/dom/ButtonAdamgiebl.vue";
+import { useApproximateDate } from "@/hooks/index";
 
 // 设置暗色模式
 document.documentElement.setAttribute("theme-mode", "dark");
 const store = useStore();
 const activityList = computed(() => store.state.activityList);
 const activityId = ref(null);
+const files = ref([]);
 const emit = defineEmits(["getActivityDetail"]);
 
 // const activityList = ref<ICode[]>([]);
@@ -25,9 +27,18 @@ const getActivityDetail = (id: number) => {
 };
 
 // 添加活动
-const newRequest = throttle(() => {
+const newActivity = throttle(() => {
   store.commit("createActivity");
 }, 1000);
+
+// 删除活动
+const deleteActivity = () => {
+  const index = activityList.value.findIndex(
+    (item) => item.id === activityId.value,
+  );
+  store.commit("deleteActivity", activityList.value[index].id);
+  store.commit("setCurrentActivity", activityList.value[index]);
+};
 
 const startService = async () => {
   // @ts-ignore
@@ -52,9 +63,13 @@ onMounted(async () => {
         border-bottom: 1px solid #343538;
       "
     >
-      <t-button @click="newRequest">New Request</t-button>
-      <ButtonAdamgiebl @click="startService"></ButtonAdamgiebl>
-      <!-- <t-button @click="saveFile">Save File</t-button> -->
+      <t-button @click="newActivity">{{ $t("button.new") }}</t-button>
+      <ButtonAdamgiebl @click="startService">{{
+        $t("button.run")
+      }}</ButtonAdamgiebl>
+      <t-button @click="deleteActivity">{{
+        $t("button.delete")
+      }}</t-button>
     </t-row>
     <t-row style="height: 84vh; overflow-y: auto">
       <div
@@ -76,9 +91,8 @@ onMounted(async () => {
         </t-row>
         <t-row>
           {{
-            new Date(item.createTime).toLocaleString("zh-cn", {
-              hour12: false,
-            })
+            useApproximateDate(item.updateTime)
+
           }}
         </t-row>
       </div>

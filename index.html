@@ -3,13 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- 配置CSP -->
     <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'"
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
     />
-    <title>Vite + Vue</title>
+    <!-- electron默认不允许，配置CSP -->
+    <!-- <meta
+    http-equiv="Content-Security-Policy"
+    content="worker-src 'self'; default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'"
+  /> -->
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-eval'; script-src 'self' 'unsafe-eval'"
+    /> -->
+    <title>Mock</title>
   </head>
   <body>
     <div id="app"></div>

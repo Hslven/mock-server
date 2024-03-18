@@ -4,7 +4,7 @@ import { ref, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { cloneDeep } from "lodash";
 import { httpMethodOptions } from "@/hooks/Parameters";
-import useKeydownSave from "@/hooks/useKeydownSave";
+import {useKeydownSave} from "@/hooks/index";
 
 const store = useStore();
 const monacoRef = ref(null);
@@ -37,3 +37,4 @@ useKeydownSave(monacoRef, activityDetail, store);
   padding: 12px;
 }
 </style>
+@/hooks/parameters

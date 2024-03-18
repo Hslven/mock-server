@@ -9,7 +9,7 @@ const buttonEvent = () => emit("buttonEvent");
 const emit = defineEmits(["buttonEvent"]);
 </script>
 <template>
-  <button>
+  <button style="height:32px">
     <div class="svg-wrapper-1">
       <div class="svg-wrapper">
         <svg

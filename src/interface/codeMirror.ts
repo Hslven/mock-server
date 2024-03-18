@@ -3,6 +3,7 @@ interface ICode {
     url: string,
     json: object,
     createTime: number,
+    updateTime: number,
     id?: number,
     title?: string,
 }

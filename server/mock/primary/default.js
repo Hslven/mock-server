@@ -49,6 +49,11 @@
     "url": "/",
     "methods": "GET",
     "response": "(ctx) => {return\"{\\\"123\\\":33}\"}"
+  },
+  {
+    "url": "/",
+    "methods": "GET",
+    "response": "(ctx) => {return\"{\\r\\n    \\r\\n}\"}"
   }
 ]
     

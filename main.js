@@ -24,7 +24,6 @@ const createWindow = () => {
         frame: true, // 隐藏默认头部
         webPreferences: {
             // nodeIntegration: true,
-            // contextIsolation: false,
             preload: path.resolve(__dirname, './preload/index.js')
         }
     })

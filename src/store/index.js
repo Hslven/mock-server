@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import { MessagePlugin } from "tdesign-vue-next";
-import { getNewActivityParameters } from "@/hooks/Parameters";
+import { getNewActivityParameters } from "@/hooks/parameters";
 import { cloneDeep } from "lodash";
 // 创建一个新的 store 实例
 const store = createStore({
@@ -21,22 +21,28 @@ const store = createStore({
   },
   mutations: {
     setEditorError(state, data) {
-        
       console.error(data);
       state.hasErrorMarkers = data;
     },
     setActivityList(state, data) {
       state.activityList = data;
     },
+    deleteActivity(state, data) {
+      // console.log(state.currentActivity.id)
+      state.activityList = state.activityList.filter(
+        (item) => item.id !== data.id,
+      );
+    },
     // 保存当前活动
     setCurrentActivity(state, data) {
-      Object.assign(state.currentActivity, data);
+      Object.assign(state.currentActivity, { ...data,updateTime: Date.now()});
       if (!data) this.commit("createActivity");
     },
     createActivity(state) {
       const obj = {
         id: ~~(Date.now() / 1000),
         createTime: Date.now(),
+        updateTime: Date.now(),
         ...getNewActivityParameters(),
       };
       // state.activityList.push(obj)

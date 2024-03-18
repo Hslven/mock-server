@@ -46,7 +46,6 @@ defineExpose({
 </script>
 
 <template>
-  {{ props.data }}
   <div id="monaco-container" style="width: 100%; height: 600px"></div>
 </template>
 
