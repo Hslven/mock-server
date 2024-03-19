@@ -91,8 +91,7 @@ onMounted(async () => {
         </t-row>
         <t-row>
           {{
-            useApproximateDate(item.updateTime)
-
+            useApproximateDate(item.createTime)
           }}
         </t-row>
       </div>

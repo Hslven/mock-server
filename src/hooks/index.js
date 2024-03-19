@@ -48,7 +48,7 @@ export function useApproximateDate(timestamp) {
   
     const now = Date.now();
     const diff = now - timestamp;
-    
+
     if (diff < MS_PER_DAY) {
       return "today";
     } else if (diff < MS_PER_WEEK) {
