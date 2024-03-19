@@ -1,4 +1,6 @@
 <script setup>
+import { throttle } from "lodash";
+
 // 导入文件
 const importFile = throttle(() => {
   store.commit("createActivity");

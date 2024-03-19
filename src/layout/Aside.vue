@@ -4,22 +4,25 @@ import { throttle } from "lodash";
 import { useStore } from "vuex";
 import type { ICode } from "../interface/codeMirror";
 import { MessagePlugin } from "tdesign-vue-next";
-import ButtonAdamgiebl from "@/components/dom/ButtonAdamgiebl.vue";
 import { useApproximateDate } from "@/hooks/index";
+import { showMsg } from '@/components/function/index.js';  
 
+import ButtonAdamgiebl from "@/components/ButtonAdamgiebl.vue";
+import Upload from "@/components/Upload.vue";
 // 设置暗色模式
 document.documentElement.setAttribute("theme-mode", "dark");
 const store = useStore();
 const activityList = computed(() => store.state.activityList);
-const activityId = ref(null);
+const currentActivity = computed(() => store.state.currentActivity);
 const files = ref([]);
 const emit = defineEmits(["getActivityDetail"]);
 
+// const activityId = ref(null);
 // const activityList = ref<ICode[]>([]);
 
 // 获取详情
 const getActivityDetail = (id: number) => {
-  activityId.value = id;
+  //   activityId.value = id;
   const data = activityList.value.find(
     (item: ICode) => item.id === id,
   );
@@ -34,10 +37,15 @@ const newActivity = throttle(() => {
 // 删除活动
 const deleteActivity = () => {
   const index = activityList.value.findIndex(
-    (item) => item.id === activityId.value,
+    (item) => item.id === currentActivity.value.id,
   );
-  store.commit("deleteActivity", activityList.value[index].id);
-  store.commit("setCurrentActivity", activityList.value[index]);
+  showMsg({
+    title: "删除活动",
+    message: "确定删除活动吗？",
+    width:443,
+  })
+//   store.commit("deleteActivity", activityList.value[index]);
+//   store.commit("setCurrentActivity", activityList.value[index]);
 };
 
 const startService = async () => {
@@ -67,9 +75,11 @@ onMounted(async () => {
       <ButtonAdamgiebl @click="startService">{{
         $t("button.run")
       }}</ButtonAdamgiebl>
-      <t-button @click="deleteActivity">{{
+      <t-button theme="danger" @click="deleteActivity">{{
         $t("button.delete")
       }}</t-button>
+
+      <Upload></Upload>
     </t-row>
     <t-row style="height: 84vh; overflow-y: auto">
       <div
@@ -90,9 +100,7 @@ onMounted(async () => {
           <t-col>{{ item.url }}</t-col>
         </t-row>
         <t-row>
-          {{
-            useApproximateDate(item.createTime)
-          }}
+          {{ useApproximateDate(item.createTime) }}
         </t-row>
       </div>
     </t-row>
