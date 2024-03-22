@@ -81,7 +81,7 @@ onMounted(async () => {
 
       <Upload></Upload>
     </t-row>
-    <t-row style="height: 84vh; overflow-y: auto">
+    <t-row style="max-height: 84vh; overflow-y: auto">
       <div
         class="aside-activity-list"
         :style="

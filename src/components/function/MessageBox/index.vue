@@ -1,10 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
 
-onMounted(() => {
-  console.log("Component mounted.");
-});
-defineProps({
+
+const prop = defineProps({
   content: {
     message: String,
     title: String,
@@ -17,23 +15,26 @@ defineProps({
   top: "50%",
   dialogVisible: true,
 });
+
+onMounted(() => {
+  console.log("Component mounted.");
+  console.log(prop)
+});
 </script>
 
 <template>
   <div class="confirm-container">
-    123
-<!--     <t-dialog
-      :visible.sync="dialogVisible"
+    <t-dialog
+      :visible.sync="true" 
       :confirmBtn="null"
       :closeBtn="false"
       :footer="false"
-      :width="content.width"
       attach="body"
       style="position: relative"
-      :header="content.title"
       :top="top"
     >
-      <div class="popupDom">
+     <t-button>123444</t-button>
+      <!-- <div class="popupDom">
         <t-space style="align-items: center; height: 80px">
           {{ content.message }}
         </t-space>
@@ -51,7 +52,7 @@ defineProps({
             >{{ (content.btn && content.btn.ok) || "确认" }}</t-button
           >
         </t-space>
-      </div>
-    </t-dialog> -->
+      </div> -->
+    </t-dialog>
   </div>
 </template>

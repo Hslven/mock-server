@@ -32,9 +32,9 @@ const store = useStore();
 
 <template>
   <t-layout style="height: 100vh">
-    <t-aside style="width: 100%;">
+    <t-aside style="min-width: 250px">
       <!-- <Aside @getActivityDetail="getActivityDetail"></Aside> -->
-      <Aside style="width: 250px;"></Aside>
+      <Aside ></Aside>
     </t-aside>
     <t-layout>
       <!-- <t-header class="header">Header</t-header> -->
