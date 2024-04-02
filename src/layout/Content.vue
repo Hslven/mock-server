@@ -37,4 +37,3 @@ useKeydownSave(monacoRef, activityDetail, store);
   padding: 12px;
 }
 </style>
-@/hooks/parameters

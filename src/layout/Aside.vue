@@ -121,3 +121,4 @@ onMounted(async () => {
   background-color: hsl(from var(--primary-color) h s calc(l * 1.2));
 }
 </style>
+@/utils/index

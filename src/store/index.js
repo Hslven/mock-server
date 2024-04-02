@@ -6,7 +6,7 @@ import {
 } from "tdesign-vue-next";
 import {
     getNewActivityParameters
-} from "@/hooks/parameters";
+} from "@/utils/parameters";
 import {
     cloneDeep
 } from "lodash";
